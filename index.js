@@ -5,6 +5,7 @@ var port = process.env.PORT || 7777
 // setup mongoose db
 var mongoose = require('mongoose')
 var dbURI = process.env.PROD_MONGODB || 'mongodb://localhost:27017/wdi-project-2'
+// var dbURI = 'mongodb://admin:admin@ds159200.mlab.com:59200/wdi-project-2' || 'mongodb://localhost:27017/wdi-project-2'
 mongoose.connect(dbURI, function (err) {
   if (err) console.error(err)
   console.log('connected to ' + dbURI)
