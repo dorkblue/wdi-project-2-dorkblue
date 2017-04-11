@@ -8,7 +8,7 @@ app.use(ejsLayouts)
 
 // link to router page
 var sampleController = require('./controllers/sample')
-app.use('/project', sampleController)
+app.use('/', sampleController)
 
 // error page
 app.use(function (req, res) {
