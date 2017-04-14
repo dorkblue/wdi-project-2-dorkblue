@@ -1,20 +1,13 @@
+// mongoose setup
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
+// bcrypt setup
 var bcrypt = require('bcrypt')
-
+// email regex
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
-
+/* UserSchema setup */
 var userSchema = new mongoose.Schema({
-  firstname: {
-    type: String,
-    minlength: [3, 'Name must be between 3 and 99 characters'],
-    maxlength: [99, 'Name must be between 3 and 99 characters']
-  },
-  lastname: {
-    type: String,
-    minlength: [3, 'Name must be between 3 and 99 characters'],
-    maxlength: [99, 'Name must be between 3 and 99 characters']
-  },
+  organisation: String,
   username: {
     type: String,
     required: true,
@@ -36,13 +29,20 @@ var userSchema = new mongoose.Schema({
     minlength: [8, 'Password must be between 8 and 99 characters'],
     maxlength: [99, 'Password must be between 8 and 99 characters']
   }
+}, {
+  // to retain key order
+  retainKeyOrder: true
 })
-userSchema.set('toObject', { retainKeyOrder: true })
 
+// hashing password before save
 userSchema.pre('save', function (next) {
   var user = this
-
-  if (!user.isModified('password')) return next()
+  console.log('checking if password is modified')
+  // doc#isModified: check if password is modified
+  if (!user.isModified('password')) {
+    console.log('password not modified, (re-)hashing not required')
+    return next()
+  }
 
   var hash = bcrypt.hashSync(user.password, 10)
   user.password = hash
@@ -50,18 +50,18 @@ userSchema.pre('save', function (next) {
   next()
 })
 
-// // to check if when login, user input password is correct to stored password
-// userSchema.methods.validPassword = function (password) {
-//   // Compare is a bcrypt method that will return a boolean
-//   return bcrypt.compareSync(password, this.password)
-// }
-//
-// userSchema.options.toJSON = {
-//   transform: function (doc, ret, options) {
-//     // delete the password from the JSON data, and return
-//     delete ret.password
-//     return ret
-//   }
-// }
+// to check if when login, user input password is correct to stored password
+userSchema.methods.validPassword = function (password) {
+  // Compare is a bcrypt method that will return a boolean
+  return bcrypt.compareSync(password, this.password)
+}
+
+userSchema.options.toJSON = {
+  transform: function (doc, ret, options) {
+    // delete the password from the JSON data, and return
+    delete ret.password
+    return ret
+  }
+}
 
 module.exports = mongoose.model('User', userSchema)
