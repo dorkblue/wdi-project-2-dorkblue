@@ -1,0 +1,30 @@
+<div class="container">
+  <h1>Consultation List</h1>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <% thead.forEach((item, index) => {
+          if(index === 0) { %>
+            <th></th>
+          <% } %>
+          <th><%- item.toUpperCase() %></th>
+        <% }) %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (allConsult.length > 0) {
+        allConsult.forEach((consult) => { %>
+          <tr>
+
+          </tr>
+        <% })
+      } else { %>
+        <tr>
+          <div class="alert alert-danger" role="alert">
+            Consultation data not found
+          </div>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

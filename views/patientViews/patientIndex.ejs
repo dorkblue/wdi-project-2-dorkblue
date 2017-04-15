@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>Patient List</h1>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <% thead.forEach((item, index) => {
+          if(index === 0) { %>
+            <th></th>
+          <% } %>
+          <th><%- item.toUpperCase() %></th>
+        <% }) %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (allPatients.length > 0) {
+        allPatients.forEach((patient) => { %>
+          <tr>
+            <td><a href="<%= './patient/' + patient.id %>"><%= patient.fullName %></a></td>
+            <td><%= patient['first name'] %></td>
+            <td><%= patient['last name'] %></td>
+            <td><%= patient['id number'] %></td>
+            <td><%= patient['gender'] %></td>
+            <td><%= patient['date created'] %></td>
+            <td><%= patient['date updated'] %></td>
+          </tr>
+        <% })
+      } else { %>
+        <tr>
+          <div class="alert alert-danger" role="alert">
+            Patients data not found
+          </div>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

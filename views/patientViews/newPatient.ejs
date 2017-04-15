@@ -1,0 +1,55 @@
+<%
+function display (){
+  console.log('errMsg', errMsg)
+  if (!errMsg.length) {
+    return 'none'
+  } else {
+    return ''
+  }
+}
+
+var alertDisplay = 'display: ' + display ()
+%>
+
+<div class="container">
+  <h1>New Patient</h1>
+  <div class="alert alert-danger" role="alert" style="<%- alertDisplay %>">
+  <%
+  if (errMsg.length) {
+    errMsg.forEach( (msg) => { %>
+      <div><%- msg %></div>
+      <% })
+    }
+  %>
+</div>
+  <div class="col-md-6">
+    <form action="/clinic/patient" method="POST">
+      <div class="form-group">
+        <label for="f-name">First Name</label>
+        <input type="text" class="form-control" id="f-name" name="firstname" placeholder="eg: Princess Consuella">
+      </div>
+      <div class="form-group">
+        <label for="l-name">Last Name</label>
+        <input type="text" class="form-control" id="l-name" name="lastname" placeholder="eg: Banana Hammock">
+      </div>
+      <div class="form-group">
+        <label for="ic">Gender</label>
+        <div class="radio">
+          <label>
+            <input type="radio" name="gender" value="Male">
+            Male
+          </label>
+          <label>
+            <input type="radio" name="gender" value="Female">
+            Female
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="ic">Identification Number</label>
+        <input type="text" class="form-control" id="ic" name="ic" placeholder="S91XXXXXG">
+      </div>
+      <button type="submit" class="btn btn-default">Add New Patient</button>
+    </form>
+  </div>
+</div>
