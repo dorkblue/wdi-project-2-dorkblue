@@ -1,6 +1,8 @@
 var router = require('express').Router()
 var patientController = require('../controllers/patientController')
 
+router.get('/search', patientController.search)
+
 router.use('/', (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.send('patientRouter: you\'re not fucking logged in')

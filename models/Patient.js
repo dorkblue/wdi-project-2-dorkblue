@@ -46,11 +46,13 @@ var patientSchema = new mongoose.Schema(
         // delete the password from the JSON data, and return
         // useful when using iteration to output key-val from doc Object
         delete ret.__v
-        delete ret._id
         return ret
       }
     }
   })
+
+patientSchema.index({'first name': 'text'})
+patientSchema.index({'last name': 'text'})
 
 // patientSchema.statics.getPaths = function () {
 //   console.log('schema paths here', this.schema.paths)

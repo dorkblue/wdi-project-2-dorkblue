@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>My Pending Project 2 Title</title>
     <!-- Latest compiled and minified CSS -->
@@ -10,38 +11,71 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Style.css -->
+    <link href="/test/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-  </head>
-  <body>
+</head>
+
+<body>
     <header>
         <div class="panel-body">
-          <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="/clinic/patient">Patients</a></li>
-            <li role="presentation"><a href="/clinic/consultation">Consultations</a></li>
-            <li role="presentation"><a href="#">Inventory</a></li>
-            <li role="presentation"><a href="/signup">Sign Up</a></li>
-            <li role="presentation"><a href="/login">Log In</a></li>
-            <li role="presentation"><a href="/logout">Log Out</a></li>
-            <li role="presentation"><a href="/profile"><%- USER %></a></li>
-          </ul>
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#">Home</a></li>
+                <li role="presentation"><a href="/clinic/patient">Patients</a></li>
+                <li role="presentation"><a href="/clinic/consultation">Consultations</a></li>
+                <li role="presentation"><a href="#">Inventory</a></li>
+                <li role="presentation"><a href="/signup">Sign Up</a></li>
+                <li role="presentation"><a href="/login">Log In</a></li>
+                <li role="presentation"><a href="/logout">Log Out</a></li>
+                <li role="presentation">
+                    <a href="/profile">
+                        <%- USER %>
+                    </a>
+                </li>
+            </ul>
         </div>
     </header>
     <main>
-      <div class="panel-body">
-        <input type="text" name="" value="" id="autocomplete_search">
-        <%- body %>
-      </div>
+        <div class="panel-body">
+          <div>
+          	<input id="autocomplete" title="type &quot;a&quot;">
+          </div>
+            <%- body %>
+        </div>
     </main>
-
-    <%# SCRIPT%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <%# testing jqueryui%>
-    <script src="/testJqueryIU//jquery.js"></script>
-    <script src="/testJqueryIU/jquery-ui.js"></script>
-    <%# ---------------------%>
-    <script src="/js/app.js" charset="utf-8"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  </body>
+    <script src="/test/external/jquery/jquery.js"></script>
+    <script src="/test/jquery-ui.js"></script>
+    <script>
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
+
+    </script>
+    <%# SCRIPT%>
+        <script src="/js/app.js" charset="utf-8"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
 </html>

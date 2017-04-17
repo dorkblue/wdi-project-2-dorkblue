@@ -3,6 +3,25 @@ var Patientmodel = Patient.Model
 var patientObj = Patient.obj
 var cusFn = require('../public/js/modules')
 
+
+// {$text: {$search: req.query.term}}
+function search (req, res, next) {
+  console.log(req.query.term)
+  Patientmodel.find({fullName: {$regex: req.query.term, $options: 'i'}}).select({'first name': 1, 'last name': 1, 'id': 1}).exec((err, data) => {
+    if (err) console.error(err)
+    console.log('data', data)
+    var output = []
+    data.forEach((item) => {
+      var obj = {}
+      obj.label = item['first name'] + ' ' + item['last name']
+      obj.value = item['id']
+      output.push(obj)
+    })
+    console.log('output', output)
+    res.jsonp(output)
+  })
+}
+
 function showAll (req, res, next) {
   console.log('showall passport user', req.user)
   var thead = cusFn.filterKeys(Object.keys(patientObj), ['consultation'])
@@ -69,5 +88,6 @@ module.exports = {
   toCreateNew: createNewPatientPage,
   new: createNew,
   index: showAll,
-  one: showOne
+  one: showOne,
+  search: search
 }
