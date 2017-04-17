@@ -17,7 +17,8 @@ var consultationObj = {
   'comments': {
     type: String
   },
-  'medication': [{ type: mongoose.Schema.Types.ObjectId, ref: 'medication' }]
+  'medication': [{ type: mongoose.Schema.Types.ObjectId, ref: 'medication' }],
+  'user': [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }
 
 var consultationSchema = new mongoose.Schema(

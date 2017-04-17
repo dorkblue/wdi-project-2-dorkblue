@@ -27,7 +27,10 @@ var patientObj = {
     type: String,
     default: modules.dateNow()
   },
-  'consultation': [{ type: mongoose.Schema.Types.ObjectId, ref: 'consultation' }],
+  'consultation': [
+    { type: mongoose.Schema.Types.ObjectId,
+      ref: 'consultation' }
+  ],
   'user': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

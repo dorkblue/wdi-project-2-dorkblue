@@ -38,9 +38,18 @@ function getErrMsg (input) {
   return errMsgs
 }
 
+function userIsAvailable (user) {
+  if (!user) {
+    return ''
+  } else {
+    return user.username
+  }
+}
+
 module.exports = {
   filterKeys: filterArray,
   dateNow: dateNow,
   checkObj: checkObj,
-  getErrMsg: getErrMsg
+  getErrMsg: getErrMsg,
+  userIsAvailable: userIsAvailable
 }

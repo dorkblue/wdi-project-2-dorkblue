@@ -1,14 +1,7 @@
 var passport = require('../config/passport')
+var cusFn = require('../public/js/modules')
 
 var Usermodel = require('../models/user').Model
-
-function userIsAvailable (user) {
-  if (!user) {
-    return ''
-  } else {
-    return user.username
-  }
-}
 
 function displaySignup (req, res) {
   if (req.isAuthenticated()) {
@@ -16,7 +9,7 @@ function displaySignup (req, res) {
   }
   console.log(req.user)
   res.render('restricted/signup', {
-    USER: userIsAvailable(req.user)})
+    USER: cusFn.userIsAvailable(req.user)})
 }
 
 function authSignup (req, res, done) {
@@ -32,7 +25,7 @@ function displayLogin (req, res) {
     return res.redirect('/profile')
   }
   res.render('restricted/login', {
-    USER: req.user.username})
+    USER: cusFn.userIsAvailable(req.user)})
 }
 
 function authLogin (req, res) {
