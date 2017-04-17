@@ -1,62 +1,58 @@
-var express = require('express')
-var mongoose = require('mongoose')
 var Patient = require('../models/Patient')
+var Patientmodel = Patient.Model
+var patientObj = Patient.obj
+var cusFn = require('../public/js/modules')
 
 function showAll (req, res, next) {
-  Patient.find({}).sort({'last name': 'asc'}).exec((err, data) => {
+  console.log('showall passport user', req.user)
+  var thead = cusFn.filterKeys(Object.keys(patientObj), ['consultation'])
+  Patientmodel.find({}).sort({'last name': 'asc'}).exec((err, data) => {
     if (err) console.error(err)
-    res.render('patientViews/patientIndex', {thead: Patient.getPaths(), allPatients: data})
+    res.render('patientViews/patientIndex', {thead: thead, allPatients: data})
   })
 }
+//
+// function showOne (req, res, next) {
+//   Patientmodel.findById(req.params.patient_id, (err, data) => {
+//     if (err) res.render()
+//     res.render('patientViews/patientShow', {patient: data})
+//   })
+// }
 
 function showOne (req, res, next) {
-  console.log(req.params.patient_id)
-  Patient.findById(req.params.patient_id, (err, data) => {
+  console.log('showone passport user', req.user)
+  Patientmodel.findById(req.params.patient_id).populate('consultation').exec((err, data) => {
     if (err) res.render()
+    console.log(data.consultation)
     res.render('patientViews/patientShow', {patient: data})
   })
 }
 
 function createNewPatientPage (req, res) {
+console.log('createNewPatientPage passport user', req.user)
   res.render('patientViews/newPatient.ejs',
     {errMsg: req.flash('error')
     })
 }
 
 function createNew (req, res) {
-  console.log(req.body)
-  var newPatient = new Patient()
-  newPatient['first name'] = req.body.firstname
-  newPatient['last name'] = req.body.lastname
-  newPatient['gender'] = req.body.gender
-  newPatient['id number'] = req.body.ic
+  console.log('createNew passport user', req.user)
+
+  var toAdd = cusFn.checkObj(req.body, patientObj)
+
+  var newPatient = new Patientmodel(toAdd)
 
   newPatient.save((err, saved, next) => {
     if (err) {
-      console.log('failed')
-      console.log(err)
-      var errors = getErrMsg(err.errors)
+      console.log('failed to save new patient')
+      var errors = cusFn.getErrMsg(err.errors)
       req.flash('error', errors)
       res.redirect('/clinic/patient/new')
     } else {
-      console.log('succeeded')
+      console.log('new patient saved succeeded')
       res.redirect('/clinic/patient')
     }
   })
-}
-
-function getErrMsg (input) {
-  console.log(input)
-  var errMsgs = []
-  for (var key in input) {
-    errMsgs.push(input[key].message)
-  }
-  return errMsgs
-}
-
-function getSchemaPath (model) {
-  var schemaPaths = Object.keys(model.schema.paths)
-  console.log(schemaPaths)
 }
 
 module.exports = {

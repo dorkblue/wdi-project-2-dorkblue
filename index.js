@@ -2,7 +2,6 @@
 var express = require('express')
 var app = express()
 var port = process.env.PORT || 7777
-var path = require('path')
 
 // setup dotenv
 require('dotenv').config({ silent: true })
@@ -19,6 +18,11 @@ mongoose.connect(dbURI, function (err) {
 app.use(express.static('public'))
 app.use(express.static('views'))
 
+// setup bodyParser
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
 // setup sessions & connect-mongo
 var session = require('express-session')
 var MongoStore = require('connect-mongo')(session)
@@ -33,25 +37,28 @@ app.use(session({
 var flash = require('connect-flash')
 app.use(flash())
 
+// initialize passport configuration and session as middleware
+var passport = require('./config/passport')
+app.use(passport.initialize())
+app.use(passport.session())
+
 // setup ejs template
 app.set('view engine', 'ejs')
 var ejsLayouts = require('express-ejs-layouts')
 app.use(ejsLayouts)
 
-// setup bodyParser
-var bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-
 // link to unrestricted pages controller
-// var pageRouter = require('./controllers/page_router')
+// var pageRouter = require('./routers/pageRouter')
 // app.use('/', pageRouter)
+// link to auth pages controller
+var authRouter = require('./routers/authRouter')
+app.use('/', authRouter)
 
 // link to restricted patient page
-var patientRouter = require('./routes/patientRouter')
+var patientRouter = require('./routers/patientRouter')
 app.use('/clinic/patient', patientRouter)
 // link to restricted patient's consultation page
-var consultRouter = require('./routes/consultRouter')
+var consultRouter = require('./routers/consultRouter')
 app.use('/clinic/consultation', consultRouter)
 
 // error page

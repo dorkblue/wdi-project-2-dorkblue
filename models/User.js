@@ -5,9 +5,8 @@ mongoose.Promise = global.Promise
 var bcrypt = require('bcrypt')
 // email regex
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
-/* UserSchema setup */
-var userSchema = new mongoose.Schema({
-  organisation: String,
+
+var userObj = {
   username: {
     type: String,
     required: true,
@@ -29,10 +28,15 @@ var userSchema = new mongoose.Schema({
     minlength: [8, 'Password must be between 8 and 99 characters'],
     maxlength: [99, 'Password must be between 8 and 99 characters']
   }
-}, {
+}
+
+/* UserSchema setup */
+var userSchema = new mongoose.Schema(
+  userObj,
+  {
   // to retain key order
-  retainKeyOrder: true
-})
+    retainKeyOrder: true
+  })
 
 // hashing password before save
 userSchema.pre('save', function (next) {
@@ -64,4 +68,11 @@ userSchema.options.toJSON = {
   }
 }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = {
+  Model: mongoose.model('User', userSchema),
+  obj: userObj
+}
+
+// module.exports = {
+//   Model: UserModel
+// }

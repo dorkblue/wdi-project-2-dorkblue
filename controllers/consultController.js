@@ -1,18 +1,27 @@
-var express = require('express')
-var mongoose = require('mongoose')
 var Consultation = require('../models/Consultation')
-var Patient = require('../models/Patient')
+var PatientModel = require('../models/Patient').Model
+var ConsultModel = Consultation.Model
+var consultObj = Consultation.obj
+var cusFn = require('../public/js/modules')
 
 function showAll (req, res, next) {
-  Consultation.find({}).sort({'date': 'asc'}).exec((err, data) => {
-    if (err) console.error(err)
+  var thead = cusFn.filterKeys(Object.keys(consultObj), Consultation.toIgnore)
 
-    res.render('consultViews/consultIndex', {thead: Consultation.getPaths(), allConsult: data})
+  ConsultModel.find({}).sort({'date': 'asc'}).exec((err, data) => {
+    if (err) console.error(err)
+    res.render('consultViews/consultIndex', {thead: thead, allConsult: data})
+  })
+}
+
+function showOne (req, res, next) {
+  ConsultModel.findById(req.params.consult_id).populate('patient').exec((err, data) => {
+    if (err) res.render()
+    res.render('consultViews/consultShow', {consultation: data})
   })
 }
 
 function createNewConsultPage (req, res, next) {
-  Patient.findById(req.query.id, (err, foundPatient) => {
+  PatientModel.findById(req.query.id, (err, foundPatient) => {
     if (err) console.error(err)
     res.render('consultViews/consultNew',
       {errMsg: req.flash('error'),
@@ -22,40 +31,38 @@ function createNewConsultPage (req, res, next) {
 }
 
 function createNew (req, res) {
-  console.log(req.query)
-  console.log(req.body)
-  var newConsult = new Consultation()
-  newConsult['patient'] = req.query.id
-  newConsult['attending doctor'] = req.body['attending doctor']
-  newConsult['date'] = req.body['date']
-  newConsult['comments'] = req.body['comments']
+  // checkObj checks if there is empty string inputs
+  var toAdd = cusFn.checkObj(req.body, consultObj)
+  toAdd.patient = req.query.id
+
+  var newConsult = new ConsultModel(toAdd)
 
   newConsult.save((err, saved, next) => {
     if (err) {
       console.log('failed')
       console.log(err)
-      var errors = getErrMsg(err.errors)
+      var errors = cusFn.getErrMsg(err.errors)
       req.flash('error', errors)
       res.redirect('/clinic/consultation/new?id=' + req.query.id)
     } else {
       console.log('succeeded')
       console.log(saved)
-      res.redirect('/clinic/consultation')
+      PatientModel.findById(req.query.id, (err, foundPatient) => {
+        if (err) console.error(err)
+        foundPatient.consultation.push(saved)
+        foundPatient.save((err, saved) => {
+          if (err) console.error(err)
+          console.log('consultation saved to patient')
+        })
+      })
+      res.redirect('/clinic/patient/' + req.query.id)
     }
   })
-}
-
-function getErrMsg (input) {
-  console.log(input)
-  var errMsgs = []
-  for (var key in input) {
-    errMsgs.push(input[key].message)
-  }
-  return errMsgs
 }
 
 module.exports = {
   index: showAll,
   toCreateNew: createNewConsultPage,
-  new: createNew
+  new: createNew,
+  one: showOne
 }

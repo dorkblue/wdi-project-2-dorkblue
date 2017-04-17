@@ -8,8 +8,10 @@
 // UPDATE        => PUT => /movies/:id
 // DELETE        => DELETE => /movies/:id
 
+function showHome (req, res) {
+  res.render('unrestricted/homepage')
+}
 
-
-
-
-module.exports = router
+module.exports = {
+  showHome: showHome
+}

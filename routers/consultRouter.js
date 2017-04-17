@@ -16,10 +16,10 @@ router.route('/')
 // post '/' : create new consultation
 .post(consultController.new)
 
-// /* route '/:consult_id' */
-// router.route('/:consult_id')
-// // get : show one consultation
-// .get(consultController.one)
+/* route '/:consult_id' */
+router.route('/:consult_id')
+// get : show one consultation
+.get(consultController.one)
 // // put : receive req to process edit
 // .put((req, res) => {
 //   res.send('receive put req to edit')
