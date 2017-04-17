@@ -2,20 +2,19 @@ var router = require('express').Router()
 var passport = require('../config/passport')
 var authController = require('../controllers/authController')
 
+router.route('/failed')
+.get((req, res) => {
+  res.send('failed')
+})
+
 router.route('/signup')
 .get(authController.displaySignup)
-.post(passport.authenticate('local-signup', {
-  successRedirect: '/profile',
-  failureRedirect: '/failed'
-}))
+.post(authController.authSignup)
 
 router.route('/login')
 .get(authController.displayLogin)
 // POST / page to create new user
-.post(passport.authenticate('local-login', {
-  successRedirect: '/profile',
-  failureRedirect: '/login'
-}))
+.post(authController.authLogin)
 //
 // router.route('/:user')
 // // GET /:user page
@@ -23,20 +22,12 @@ router.route('/login')
 
 router.route('/profile')
 .get((req, res) => {
-  console.log(req.session.passport)
-  res.render('testing', {sess: req.session.passport})
+  res.render('testing', {USER: req.user.username})
 })
 
-router.route('/failed')
-.get((req, res) => {
-  res.send('failed')
-})
+
 
 router.route('/logout')
-.get((req, res) => {
-  console.log('logout passport user', req.user)
-  req.logout()
-  res.redirect('/signup')
-})
+.get(authController.logOut)
 
 module.exports = router

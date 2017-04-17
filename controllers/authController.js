@@ -2,11 +2,21 @@ var passport = require('../config/passport')
 
 var Usermodel = require('../models/user').Model
 
+function userIsAvailable (user) {
+  if (!user) {
+    return ''
+  } else {
+    return user.username
+  }
+}
+
 function displaySignup (req, res) {
   if (req.isAuthenticated()) {
     return res.redirect('/profile')
   }
-  res.render('restricted/signup')
+  console.log(req.user)
+  res.render('restricted/signup', {
+    USER: userIsAvailable(req.user)})
 }
 
 function authSignup (req, res, done) {
@@ -14,20 +24,29 @@ function authSignup (req, res, done) {
   passport.authenticate('local-signup', {
     successRedirect: '/profile',
     failureRedirect: '/failed'
-  })
+  })(req, res)
 }
 
 function displayLogin (req, res) {
   if (req.isAuthenticated()) {
     return res.redirect('/profile')
   }
-  res.render('restricted/login')
+  res.render('restricted/login', {
+    USER: req.user.username})
 }
 
 function authLogin (req, res) {
-
+  passport.authenticate('local-login', {
+    successRedirect: '/profile',
+    failureRedirect: '/login'
+  })(req, res)
 }
 
+function logOut (req, res) {
+  console.log('logout passport user', req.user)
+  req.logout()
+  res.redirect('/signup')
+}
 // function userPage (req, res) {
 //   UserModel.findOne({username: req.params.user}, function (err, user) {
 //     if (err) console.error(err)
@@ -40,5 +59,6 @@ module.exports = {
   displaySignup: displaySignup,
   authSignup: authSignup,
   displayLogin: displayLogin,
-  authLogin: authLogin
+  authLogin: authLogin,
+  logOut: logOut
 }

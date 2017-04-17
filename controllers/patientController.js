@@ -6,9 +6,14 @@ var cusFn = require('../public/js/modules')
 function showAll (req, res, next) {
   console.log('showall passport user', req.user)
   var thead = cusFn.filterKeys(Object.keys(patientObj), ['consultation'])
-  Patientmodel.find({}).sort({'last name': 'asc'}).exec((err, data) => {
+  Patientmodel.find({user: req.user.id}).populate('user').sort({'last name': 'asc'}).exec((err, data) => {
     if (err) console.error(err)
-    res.render('patientViews/patientIndex', {thead: thead, allPatients: data})
+    console.log(data)
+    res.render('patientViews/patientIndex', {
+      thead: thead,
+      allPatients: data,
+      USER: req.user.username
+    })
   })
 }
 //
@@ -24,14 +29,18 @@ function showOne (req, res, next) {
   Patientmodel.findById(req.params.patient_id).populate('consultation').exec((err, data) => {
     if (err) res.render()
     console.log(data.consultation)
-    res.render('patientViews/patientShow', {patient: data})
+    res.render('patientViews/patientShow', {
+      patient: data,
+      USER: req.user.username
+    })
   })
 }
 
 function createNewPatientPage (req, res) {
-console.log('createNewPatientPage passport user', req.user)
+  console.log('createNewPatientPage passport user', req.user)
   res.render('patientViews/newPatient.ejs',
-    {errMsg: req.flash('error')
+    {errMsg: req.flash('error'),
+      USER: req.user.username
     })
 }
 
@@ -41,6 +50,7 @@ function createNew (req, res) {
   var toAdd = cusFn.checkObj(req.body, patientObj)
 
   var newPatient = new Patientmodel(toAdd)
+  newPatient.user = req.user.id
 
   newPatient.save((err, saved, next) => {
     if (err) {

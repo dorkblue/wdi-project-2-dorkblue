@@ -54,6 +54,8 @@ app.use(ejsLayouts)
 var authRouter = require('./routers/authRouter')
 app.use('/', authRouter)
 
+
+
 // link to restricted patient page
 var patientRouter = require('./routers/patientRouter')
 app.use('/clinic/patient', patientRouter)

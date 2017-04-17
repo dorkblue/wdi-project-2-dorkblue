@@ -1,6 +1,13 @@
 var router = require('express').Router()
 var patientController = require('../controllers/patientController')
 
+router.use('/', (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.send('patientRouter: you\'re not fucking logged in')
+  }
+  next()
+})
+
 /* route '/new' */
 // create new patient page
 router.get('/new', patientController.toCreateNew)
