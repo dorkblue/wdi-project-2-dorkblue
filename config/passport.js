@@ -32,13 +32,11 @@ passport.use('local-signup', new LocalStrategy({
     username: givenUser,
     password: givenPassword
   })
-
   newUser.save(function (err, data) {
     if (err) {
       console.log('NEW USER SAVE ERROR', err)
       return done(err)
     }
-
     done(null, data)
   })
 }))

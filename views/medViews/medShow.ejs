@@ -1,0 +1,13 @@
+<% var deleteLink = med.id + '?_method=DELETE' %>
+<div class="container">
+  <pre>
+    <%- med %>
+  </pre>
+  <form class="" action="edit" method="get">
+    <button type="submit" name="id" value="<%- med.id %>">Edit</button>
+  </form>
+  <form class="" action="<%- deleteLink %>" method="POST">
+    <button type="submit" name="id" value="<%- med.id %>">Delete</button>
+  </form>
+
+</div>

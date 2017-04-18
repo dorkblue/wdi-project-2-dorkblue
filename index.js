@@ -23,6 +23,10 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+// setup method override
+var methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
 // setup sessions & connect-mongo
 var session = require('express-session')
 var MongoStore = require('connect-mongo')(session)
@@ -62,6 +66,9 @@ app.use('/clinic/patient', patientRouter)
 // link to restricted patient's consultation page
 var consultRouter = require('./routers/consultRouter')
 app.use('/clinic/consultation', consultRouter)
+// link to restricted medication page
+var medRouter = require('./routers/medRouter')
+app.use('/clinic/medicine', medRouter)
 
 // error page
 app.use(function (req, res) {

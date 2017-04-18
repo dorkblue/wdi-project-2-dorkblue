@@ -1,10 +1,17 @@
+<% var deleteLink = patient.id + '?_method=DELETE' %>
 <div class="container">
   <pre>
     <%- patient %>
   </pre>
 
   <form class="" action="../consultation/new" method="get">
-    <button type="submit" name="id" value="<%- patient.id %>">CLICK ME PLEASE</button>
+    <button type="submit" name="id" value="<%- patient.id %>">Add Consultation</button>
+  </form>
+  <form class="" action="edit" method="get">
+    <button type="submit" name="id" value="<%- patient.id %>">Edit</button>
+  </form>
+  <form class="" action="<%- deleteLink %>" method="POST">
+    <button type="submit" name="id" value="<%- patient.id %>">Delete</button>
   </form>
 
 </div>

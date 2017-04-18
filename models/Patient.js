@@ -50,9 +50,9 @@ var patientSchema = new mongoose.Schema(
       }
     }
   })
-
-patientSchema.index({'first name': 'text'})
-patientSchema.index({'last name': 'text'})
+//
+// patientSchema.index({'first name': 'text'})
+// patientSchema.index({'last name': 'text'})
 
 // patientSchema.statics.getPaths = function () {
 //   console.log('schema paths here', this.schema.paths)
@@ -67,7 +67,7 @@ patientSchema.index({'last name': 'text'})
 // }
 
 patientSchema.virtual('fullName').get(function () {
-  return this['first name'] + ', ' + this['last name']
+  return this['first name'] + ' ' + this['last name']
 })
 
 module.exports = {

@@ -10,7 +10,6 @@ function display (){
 
 var alertDisplay = 'display: ' + display ()
 %>
-
 <div class="container">
   <h1>New Consultation for <a href="<%-'../patient/' + patient.id %>"><%- patient.fullName %></a></h1>
   <div class="alert alert-danger" role="alert" style="<%- alertDisplay %>">
@@ -47,7 +46,68 @@ var alertDisplay = 'display: ' + display ()
         <label for="comments">Comments</label>
         <textarea class="form-control" rows="3" id="comments" name="comments" placeholder="Enter consultation details and comments here"></textarea>
       </div>
-      <button type="submit" class="btn btn-default">Add Consultation</button>
+      <div class="form-group">
+        <label for="medicine">Prescription</label>
+        <div class="form-inline">
+          <div class="form-group">
+            <select name="medicine" class="form-control">
+              <%
+              med.forEach((item) => {
+              %>
+                <option value="<%- item.id %>"><%- item.name %></option>
+              <%
+              })
+              %>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" name="amount" placeholder="amount" class="form-control">
+          </div>
+          <div class="form-group">
+            <select name="unit" class="form-control" value="">
+              <option>mg</option>
+              <option>ml</option>
+              <option>gm</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div class="form-inline">
+          <div class="form-group">
+            <select name="medicine" class="form-control">
+              <%
+              med.forEach((item) => {
+              %>
+                <option value="<%- item.id %>"><%- item.name %></option>
+              <%
+              })
+              %>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" name="amount" placeholder="amount" class="form-control">
+          </div>
+          <div class="form-group">
+            <select name="unit" class="form-control">
+              <option>mg</option>
+              <option>ml</option>
+              <option>gm</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default">Add Consultation</button>
+      </div>
     </form>
   </div>
 </div>

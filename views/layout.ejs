@@ -22,7 +22,7 @@
                 <li role="presentation" class="active"><a href="#">Home</a></li>
                 <li role="presentation"><a href="/clinic/patient">Patients</a></li>
                 <li role="presentation"><a href="/clinic/consultation">Consultations</a></li>
-                <li role="presentation"><a href="#">Inventory</a></li>
+                <li role="presentation"><a href="/clinic/medicine">Inventory</a></li>
                 <li role="presentation"><a href="/signup">Sign Up</a></li>
                 <li role="presentation"><a href="/login">Log In</a></li>
                 <li role="presentation"><a href="/logout">Log Out</a></li>
@@ -36,46 +36,18 @@
     </header>
     <main>
         <div class="panel-body">
-          <div>
-          	<input id="autocomplete" title="type &quot;a&quot;">
-          </div>
+            <div>
+                <input id="autocomplete" title="type &quot;a&quot;">
+            </div>
             <%- body %>
         </div>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/test/external/jquery/jquery.js"></script>
     <script src="/test/jquery-ui.js"></script>
-    <script>
-        var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme"
-        ];
-
-    </script>
-    <%# SCRIPT%>
-        <script src="/js/app.js" charset="utf-8"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/js/app.js" charset="utf-8"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>

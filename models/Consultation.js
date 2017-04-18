@@ -17,7 +17,12 @@ var consultationObj = {
   'comments': {
     type: String
   },
-  'medication': [{ type: mongoose.Schema.Types.ObjectId, ref: 'medication' }],
+  'prescription': [{
+    medicine: {type: mongoose.Schema.Types.ObjectId,
+      ref: 'medicine' },
+    amount: String,
+    unit: String
+  }],
   'user': [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }
 
@@ -29,7 +34,6 @@ var consultationSchema = new mongoose.Schema(
         // delete the password from the JSON data, and return
         ret.date = ret.date.toLocaleDateString()
         delete ret.__v
-        delete ret._id
         return ret
       }
     }
@@ -59,5 +63,5 @@ consultationSchema.statics.getPaths = function () {
 module.exports = {
   obj: consultationObj,
   Model: mongoose.model('consultation', consultationSchema),
-  toIgnore: ['comments', 'medication'] // to ignore when listing all
+  toIgnore: ['comments', 'prescription'] // to ignore when listing all
 }

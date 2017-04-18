@@ -9,7 +9,11 @@ $(document).ready(function () {
 
   $('#autocomplete').autocomplete({
     source: '/clinic/patient/search',
-    minLength: 3
+    minLength: 3,
+    select: function (event, ui) {
+      console.log(ui)
+      window.location.href = 'patient/' + ui.item.value
+    }
   })
 
   //
