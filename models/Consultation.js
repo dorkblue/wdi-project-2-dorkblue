@@ -11,7 +11,7 @@ var consultationObj = {
     required: [true, 'Attending Doctor required']
   },
   'date': {
-    type: Date,
+    type: String,
     required: [true, 'Date of Consultation required']
   },
   'comments': {
@@ -32,7 +32,15 @@ var consultationSchema = new mongoose.Schema(
     toObject: {
       transform: function (doc, ret, options) {
         // delete the password from the JSON data, and return
-        ret.date = ret.date.toLocaleDateString()
+        // ret.date = ret.date.toLocaleDateString()
+        delete ret.__v
+        return ret
+      }
+    },
+    toJSON: {
+      transform: function (doc, ret, options) {
+        // delete the password from the JSON data, and return
+        // ret.date = ret.date.toLocaleDateString()
         delete ret.__v
         return ret
       }

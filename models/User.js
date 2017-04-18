@@ -2,7 +2,7 @@
 var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 // bcrypt setup
-var bcrypt = require('bcrypt')
+var bcrypt = require('bcryptjs')
 // email regex
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
 

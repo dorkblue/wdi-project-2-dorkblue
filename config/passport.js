@@ -5,7 +5,6 @@ var Usermodel = require('../models/user').Model
 
 // set the authenticated user data into session
 passport.serializeUser(function (user, done) {
-  console.log('seralizeuser', user)
   done(null, user.id)
 })
 
@@ -15,7 +14,6 @@ passport.serializeUser(function (user, done) {
  */
 passport.deserializeUser(function (id, done) {
   Usermodel.findById(id, function (err, user) {
-    console.log('deserializeuser', user)
     done(err, user)
   })
 })

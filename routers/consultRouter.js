@@ -5,9 +5,7 @@ var consultController = require('../controllers/consultController')
 // create new consultation page
 router.get('/new', consultController.toCreateNew)
 // // edit consultation page
-// router.get('/:consult_id/edit', (req, res) => {
-//   res.send('edit consultation info page')
-// })
+router.get('/edit', consultController.showEdit)
 
 /* route '/' */
 router.route('/')
@@ -17,12 +15,11 @@ router.route('/')
 .post(consultController.new)
 
 /* route '/:consult_id' */
-router.route('/:consult_id')
+router.route('/:id')
 // get : show one consultation
 .get(consultController.one)
 // // put : receive req to process edit
-// .put((req, res) => {
-//   res.send('receive put req to edit')
-// })
+.put(consultController.edit)
+.delete(consultController.remove)
 
 module.exports = router
