@@ -1,7 +1,7 @@
 var passport = require('../config/passport')
 var cusFn = require('../public/js/modules')
 
-var Usermodel = require('../models/user').Model
+var Usermodel = require('../models/User').Model
 
 function displaySignup (req, res) {
   if (req.isAuthenticated()) {
