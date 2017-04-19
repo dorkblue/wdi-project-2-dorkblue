@@ -1,7 +1,7 @@
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 
-var Usermodel = require('../models/user').Model
+var Usermodel = require('../models/User').Model
 
 // set the authenticated user data into session
 passport.serializeUser(function (user, done) {
