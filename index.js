@@ -56,10 +56,6 @@ app.use(ejsLayouts)
 // app.use('/', pageRouter)
 // link to auth pages controller
 
-app.get('/', (req, res) => {
-  res.send('homepage')
-})
-
 var authRouter = require('./routers/authRouter')
 app.use('/', authRouter)
 

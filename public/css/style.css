@@ -1,0 +1,7 @@
+div.panel-heading {
+  display: flex;
+  justify-content: space-between;
+}
+dt {
+  text-transform: capitalize;
+}

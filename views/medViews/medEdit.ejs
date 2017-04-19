@@ -1,25 +1,35 @@
 <% var editLink = med.id + '?_method=PUT' %>
 <div class="container">
-  <h2>Edit <em><%- med.name %></em> Info</h2>
-  <div class="col-md-6">
-    <form action="<%- editLink %>" method="POST">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="<%- med.name %>">
+  <form action="<%- editLink %>" method="POST">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Edit <em><%- med.name %></em> Info</h3>
+      <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-default" aria-label="Left Align">
+          <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+        </button>
       </div>
-      <div class="form-group">
-        <label for="supplier">Supplier:</label>
-        <input type="text" class="form-control" id="supplier" name="supplier" placeholder="<%- med.supplier %>">
+    </div>
+    <div class="panel-body">
+      <div class="col-md-6">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="<%- med.name %>">
+          </div>
+          <div class="form-group">
+            <label for="supplier">Supplier:</label>
+            <input type="text" class="form-control" id="supplier" name="supplier" placeholder="<%- med.supplier %>">
+          </div>
+          <div class="form-group">
+            <label for="inventory">Inventory:</label>
+            <input type="number" class="form-control" id="inventory" name="inventory" placeholder="<%- med.inventory %>">
+          </div>
+          <div class="form-group">
+            <label for="unit">Unit:</label>
+            <input type="text" class="form-control" id="unit" name="unit" placeholder="<%- med.unit %>">
+          </div>
       </div>
-      <div class="form-group">
-        <label for="inventory">Inventory:</label>
-        <input type="number" class="form-control" id="inventory" name="inventory" placeholder="<%- med.inventory %>">
-      </div>
-      <div class="form-group">
-        <label for="unit">Unit:</label>
-        <input type="text" class="form-control" id="unit" name="unit" placeholder="<%- med.unit %>">
-      </div>
-      <button type="submit" class="btn btn-default">Confirm</button>
-    </form>
+    </div>
   </div>
+</form>
 </div>

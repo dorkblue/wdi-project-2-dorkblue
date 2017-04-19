@@ -12,12 +12,21 @@
     </thead>
     <tbody>
       <% if (allConsult.length > 0) {
-        allConsult.forEach((consult) => { %>
+        allConsult.forEach((consult, index) => { %>
           <tr id=<%- 'consultation/' + consult['id']%>>
-              <td><%= consult['patient'] %></td>
+              <td><a href="<%= 'patient/' + consult.patient.id %>"><%= consult.patient.fullName %></a></td>
               <td><%= consult['attending doctor'] %></td>
-              <td><%= consult['date'] %></td>
-              <td><%= consult['id'] %></td>
+              <td><%= consult.date %></td>
+              <td><%= consult.comments %></td>
+              <td>
+              <dl class="dl-horizontal">
+                <% consult.prescription.forEach((med) => { %>
+                    <dt><%- med.medicine.name %></dt>
+                    <dd><%- med.amount + ' ' + med.unit %></dd>
+                <% }) %>
+                </dl>
+
+              </td>
           </tr>
         <% })
       } else { %>

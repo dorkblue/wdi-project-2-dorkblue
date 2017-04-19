@@ -1,6 +1,9 @@
 var Patient = require('../models/Patient')
 var Patientmodel = Patient.Model
 var patientObj = Patient.obj
+var Consultation = require('../models/Consultation')
+var ConsultModel = Consultation.Model
+var consultObj = Consultation.obj
 var cusFn = require('../public/js/modules')
 
 // {$text: {$search: req.query.term}}
@@ -30,7 +33,7 @@ function search (req, res, next) {
 }
 
 function showAll (req, res, next) {
-  var thead = cusFn.filterKeys(Object.keys(patientObj), ['consultation'])
+  var thead = cusFn.filterKeys(Object.keys(patientObj), ['consultation', 'user'])
   Patientmodel.find({user: req.user.id}).populate('user').sort({'last name': 'asc'}).exec((err, data) => {
     if (err) console.error(err)
     res.render('patientViews/patientIndex', {
@@ -42,9 +45,24 @@ function showAll (req, res, next) {
 }
 
 function showOne (req, res, next) {
-  Patientmodel.findById(req.params.id).populate('consultation').exec((err, data) => {
+  var thead = cusFn.filterKeys(Object.keys(patientObj), ['consultation', 'user'])
+  var consultPath = cusFn.filterKeys(Object.keys(consultObj), ['patient', 'user'])
+
+  Patientmodel.findById(req.params.id)
+  .populate({
+    path: 'consultation'
+  })
+  .populate({
+    path: 'consultation',
+    populate: {
+      path: 'prescription.medicine'
+    }
+  })
+  .exec((err, data) => {
     if (err) console.error(err)
     res.render('patientViews/patientShow', {
+      thead: thead,
+      consultPath: consultPath,
       patient: data,
       USER: req.user.username
     })

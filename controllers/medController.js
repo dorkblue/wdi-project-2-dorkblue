@@ -4,7 +4,7 @@ var medObj = Med.obj
 var cusFn = require('../public/js/modules')
 
 function showAll (req, res, next) {
-  var thead = Object.keys(medObj)
+  var thead = cusFn.filterKeys(Object.keys(medObj), ['user'])
   Medmodel.find({user: req.user.id}).sort({inventory: 'asc'}).exec((err, data) => {
     if (err) console.error(err)
     res.render('medViews/medIndex', {
@@ -41,10 +41,12 @@ function createNew (req, res) {
 }
 
 function showOne (req, res, next) {
+  var thead = cusFn.filterKeys(Object.keys(medObj), ['user'])
   Medmodel.findById(req.params.id).exec((err, data) => {
     if (err) console.error(err)
     res.render('medViews/medShow', {
       med: data,
+      thead: thead,
       USER: req.user.username
     })
   })

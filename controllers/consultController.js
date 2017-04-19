@@ -10,17 +10,18 @@ mongoose.Promise = global.Promise
 
 function showAll (req, res, next) {
   console.log(req.user.id)
-  var thead = cusFn.filterKeys(Object.keys(consultObj), Consultation.toIgnore)
+  var thead = cusFn.filterKeys(Object.keys(consultObj), ['user'])
 
   ConsultModel.find({
     user: req.user.id
   })
     .populate({
-      path: 'patient',
-      populate: {
-        path: 'user'
-      }
-    }).sort({
+      path: 'patient'
+    })
+    .populate({
+      path: 'prescription.medicine'
+    })
+    .sort({
       'date': 'asc'
     }).exec((err, data) => {
       if (err) console.error(err)
@@ -33,6 +34,7 @@ function showAll (req, res, next) {
 }
 
 function showOne (req, res, next) {
+  var thead = cusFn.filterKeys(Object.keys(consultObj), ['user'])
   ConsultModel.findById(req.params.id)
     .populate('patient')
     .populate({
@@ -42,6 +44,7 @@ function showOne (req, res, next) {
       if (err) res.render()
       res.render('consultViews/consultShow', {
         consultation: data,
+        thead: thead,
         USER: cusFn.userIsAvailable(req.user)
       })
     })

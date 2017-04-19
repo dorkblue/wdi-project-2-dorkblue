@@ -1,51 +1,61 @@
 <% var editLink = patient.id + '?_method=PUT' %>
 <div class="container">
-  <h2>Edit <em><%- patient.fullName %></em> Info</h2>
-  <div class="col-md-6">
-    <form action="<%- editLink %>" method="POST">
-      <div class="form-group">
-        <label for="f-name">First Name: </label>
-        <input type="text" class="form-control" id="f-name" name="first name" placeholder="<%- patient['first name'] %>">
-      </div>
-      <div class="form-group">
-        <label for="l-name">Last Name</label>
-        <input type="text" class="form-control" id="l-name" name="last name" placeholder="<%- patient['last name'] %>">
-      </div>
-      <div class="form-group">
-        <label for="gender">Gender</label>
-        <div class="radio">
-          <%
-          if (patient.gender.toLowerCase() === 'male') {
-          %>
-            <label>
-              <input type="radio" name="gender" value="Male" checked>
-              Male
-            </label>
-            <label>
-              <input type="radio" name="gender" value="Female">
-              Female
-            </label>
-          <%
-          } else {
-          %>
-            <label>
-              <input type="radio" name="gender" value="Male">
-              Male
-            </label>
-            <label>
-              <input type="radio" name="gender" value="Female" checked>
-              Female
-            </label>
-          <%
-          }
-          %>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="id">Identification Number</label>
-        <input type="text" class="form-control" id="id" name="id number" placeholder="<%- patient['id number'] %>">
-      </div>
-      <button type="submit" class="btn btn-default">Confirm</button>
-    </form>
+  <form action="<%- editLink %>" method="POST">
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Edit Profile <em><%- patient.fullName %></em></h3>
+    <div class="btn-group" role="group">
+      <button type="submit" class="btn btn-default" aria-label="Left Align">
+        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+      </button>
+    </div>
   </div>
+  <div class="panel-body">
+    <div class="col-md-6">
+        <div class="form-group">
+          <label for="f-name">First Name: </label>
+          <input type="text" class="form-control" id="f-name" name="first name" placeholder="<%- patient['first name'] %>">
+        </div>
+        <div class="form-group">
+          <label for="l-name">Last Name</label>
+          <input type="text" class="form-control" id="l-name" name="last name" placeholder="<%- patient['last name'] %>">
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <div class="radio">
+            <%
+            if (patient.gender.toLowerCase() === 'male') {
+            %>
+              <label>
+                <input type="radio" name="gender" value="Male" checked>
+                Male
+              </label>
+              <label>
+                <input type="radio" name="gender" value="Female">
+                Female
+              </label>
+            <%
+            } else {
+            %>
+              <label>
+                <input type="radio" name="gender" value="Male">
+                Male
+              </label>
+              <label>
+                <input type="radio" name="gender" value="Female" checked>
+                Female
+              </label>
+            <%
+            }
+            %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="id">Identification Number</label>
+          <input type="text" class="form-control" id="id" name="id number" placeholder="<%- patient['id number'] %>">
+        </div>
+    </div>
+  </div>
+</div>
+</form>
 </div>
