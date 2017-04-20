@@ -67,7 +67,6 @@ app.use('/users', userRouter)
 var authRouter = require('./routers/authRouter')
 app.use('/', authRouter)
 
-
 // link to restricted patient page
 var patientRouter = require('./routers/patientRouter')
 app.use('/patient', patientRouter)
