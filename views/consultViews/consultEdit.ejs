@@ -40,6 +40,7 @@
             <div class="form-inline">
               <div class="form-group">
                 <select name="medicine" class="form-control">
+                  <option></option>
                   <%
                   med.forEach((item) => {
                     %>
@@ -59,7 +60,12 @@
                   <option>gm</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group delete-button">
+                <button type="button" class="btn btn-default" aria-label="Left Align">
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="form-group add-button">
                 <button type="button" class="btn btn-default" aria-label="Left Align">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </button>

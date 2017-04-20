@@ -6,13 +6,10 @@ $(document).ready(function () {
   var $allMed = $('div.all-med')
   var $medGroup = $('div.med-group')
   var $addButton = $medGroup.find('div.add-button')
-  var $allNavTab = $('div.panel-body li')
 
   $indexList.on('click', function (e) {
     window.location.href = this.id
   })
-
-  $allNavTab.on('click')
 
   $addButton.on('click', function (e) {
     // $medGroup.clone(true).appendTo($allMed)
