@@ -28,7 +28,7 @@ function showAll (req, res, next) {
       res.render('consultViews/consultIndex', {
         thead: thead,
         allConsult: data,
-        USER: cusFn.userIsAvailable(req.user)
+        user: cusFn.userIsAvailable(req.user)
       })
     })
 }
@@ -45,12 +45,13 @@ function showOne (req, res, next) {
       res.render('consultViews/consultShow', {
         consultation: data,
         thead: thead,
-        USER: cusFn.userIsAvailable(req.user)
+        user: cusFn.userIsAvailable(req.user)
       })
     })
 }
 
 function createNewConsultPage (req, res, next) {
+  if (!req.query.id) next()
   PatientModel.findById(req.query.id, (err, foundPatient) => {
     if (err) console.error(err)
     Medmodel.find({})
@@ -65,11 +66,28 @@ function createNewConsultPage (req, res, next) {
         res.render('consultViews/consultNew', {
           errMsg: req.flash('error'),
           patient: foundPatient,
-          USER: cusFn.userIsAvailable(req.user),
+          user: cusFn.userIsAvailable(req.user),
           med: med
         })
       })
   })
+}
+
+function toCreateNewWithoutPatientId (req, res) {
+  Medmodel.find({})
+    .select('name id')
+    .sort({
+      name: 'asc'
+    })
+    .exec((err, med) => {
+      if (err) console.error(err)
+      console.log(med)
+      res.render('consultViews/newWithoutPatient', {
+        errMsg: req.flash('error'),
+        user: cusFn.userIsAvailable(req.user),
+        med: med
+      })
+    })
 }
 
 function createNew (req, res) {
@@ -78,24 +96,35 @@ function createNew (req, res) {
   toAdd['attending doctor'] = req.body['attending doctor']
   toAdd.date = req.body.date
   toAdd.comments = req.body.comments
-  toAdd.patient = req.query.id
+  if (!req.query.id) {
+    toAdd.patient = req.body.patient
+  } else {
+    toAdd.patient = req.query.id
+  }
   toAdd.user = req.user.id
   toAdd.prescription = []
+  var prop = {}
 
-  for (var i = 0; i < req.body.medicine.length; i++) {
-    var prop = {}
-    prop.medicine = req.body.medicine[i]
-    prop.amount = req.body.amount[i]
-    prop.unit = req.body.unit[i]
-    toAdd.prescription.push(prop)
+  if (typeof req.body.medicine === 'string') {
+    console.log('typeof', typeof req.body.medicine)
+    if (req.body.medicine !== '') {
+      prop.medicine = req.body.medicine
+      prop.amount = req.body.amount
+      prop.unit = req.body.unit
+      toAdd.prescription.push(prop)
+    }
+  } else {
+    for (var i = 0; i < req.body.medicine.length; i++) {
+      console.log(i)
+      if (req.body.medicine[i] !== '') {
+        prop.medicine = req.body.medicine[i]
+        prop.amount = req.body.amount[i]
+        prop.unit = req.body.unit[i]
+        toAdd.prescription.push(prop)
+      }
+    }
   }
-  console.log(toAdd.prescription)
-  console.log(toAdd)
-  // checkObj checks if there is empty string inputs
 
-  toAdd = cusFn.checkObj(toAdd, consultObj)
-
-  console.log(toAdd)
   var newConsult = new ConsultModel(toAdd)
 
   newConsult.save((err, saved, next) => {
@@ -104,19 +133,19 @@ function createNew (req, res) {
       console.log(err)
       var errors = cusFn.getErrMsg(err.errors)
       req.flash('error', errors)
-      res.redirect('/clinic/consultation/new?id=' + req.query.id)
+      res.redirect('/consultation/new?id=' + toAdd.patient)
     } else {
       console.log('succeeded')
       console.log(saved)
-      PatientModel.findById(req.query.id, (err, foundPatient) => {
+      PatientModel.findById(toAdd.patient, (err, foundPatient) => {
         if (err) console.error(err)
         foundPatient.consultation.push(saved)
         foundPatient.save((err, saved) => {
           if (err) console.error(err)
           console.log('consultation saved to patient')
+          res.redirect('/patient/' + foundPatient.id)
         })
       })
-      res.redirect('/clinic/patient/' + req.query.id)
     }
   })
 }
@@ -141,7 +170,7 @@ function showEdit (req, res) {
       res.render('consultViews/consultEdit', {
         consultation: data,
         med: med,
-        USER: req.user.username
+        user: req.user.username
       })
     })
     })
@@ -159,17 +188,21 @@ function edit (req, res) {
 
   if (typeof req.body.medicine === 'string') {
     console.log('typeof', typeof req.body.medicine)
-    prop.medicine = req.body.medicine
-    prop.amount = req.body.amount
-    prop.unit = req.body.unit
-    toAdd.prescription.push(prop)
+    if (req.body.medicine !== '') {
+      prop.medicine = req.body.medicine
+      prop.amount = req.body.amount
+      prop.unit = req.body.unit
+      toAdd.prescription.push(prop)
+    }
   } else {
     for (var i = 0; i < req.body.medicine.length; i++) {
       console.log(i)
-      prop.medicine = req.body.medicine[i]
-      prop.amount = req.body.amount[i]
-      prop.unit = req.body.unit[i]
-      toAdd.prescription.push(prop)
+      if (req.body.medicine[i] !== '') {
+        prop.medicine = req.body.medicine[i]
+        prop.amount = req.body.amount[i]
+        prop.unit = req.body.unit[i]
+        toAdd.prescription.push(prop)
+      }
     }
   }
   console.log('toAdd here', toAdd)
@@ -197,13 +230,14 @@ function remove (req, res) {
   ConsultModel.findById(req.body.id).remove(function (err) {
     if (err) console.error(err)
     console.log('removed!')
-    res.redirect('/clinic/consultation')
+    res.redirect('/consultation')
   })
 }
 
 module.exports = {
   index: showAll,
   toCreateNew: createNewConsultPage,
+  toCreateNewWithoutPatientId: toCreateNewWithoutPatientId,
   new: createNew,
   one: showOne,
   showEdit: showEdit,

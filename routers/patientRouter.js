@@ -1,14 +1,6 @@
 var router = require('express').Router()
 var patientController = require('../controllers/patientController')
 
-// check if user is authenticated
-router.use('/', (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return res.send('patientRouter: you\'re not fucking logged in')
-  }
-  next()
-})
-
 // jqueryui autocomplete search bar
 router.get('/search', patientController.search)
 

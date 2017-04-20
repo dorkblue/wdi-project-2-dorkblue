@@ -1,56 +1,32 @@
 var passport = require('../config/passport')
 var cusFn = require('../public/js/modules')
 
-var Usermodel = require('../models/User').Model
-
-function displaySignup (req, res) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/profile')
-  }
-  console.log(req.user)
-  res.render('restricted/signup', {
-    USER: cusFn.userIsAvailable(req.user)})
-}
-
-function authSignup (req, res, done) {
-  console.log('running authSignup!')
-  passport.authenticate('local-signup', {
-    successRedirect: '/profile',
-    failureRedirect: '/failed'
-  })(req, res)
-}
-
 function displayLogin (req, res) {
   if (req.isAuthenticated()) {
-    return res.redirect('/profile')
+    if (req.user.type === 'admin') {
+      return res.redirect('/users')
+    } else {
+      return res.redirect('/patient')
+    }
   }
-  res.render('restricted/login', {
-    USER: cusFn.userIsAvailable(req.user)})
+  res.render('auth/login')
 }
 
 function authLogin (req, res) {
   passport.authenticate('local-login', {
-    successRedirect: '/profile',
-    failureRedirect: '/login'
+    successRedirect: '/loggedin',
+    failureRedirect: '/'
   })(req, res)
 }
 
 function logOut (req, res) {
   console.log('logout passport user', req.user)
   req.logout()
-  res.redirect('/signup')
+  // redirect to a logout page, with options to login
+  res.redirect('/')
 }
-// function userPage (req, res) {
-//   UserModel.findOne({username: req.params.user}, function (err, user) {
-//     if (err) console.error(err)
-//     console.log(user + ' is found in db')
-//     res.render('restricted/userpage', {user: user})
-//   })
-// }
 
 module.exports = {
-  displaySignup: displaySignup,
-  authSignup: authSignup,
   displayLogin: displayLogin,
   authLogin: authLogin,
   logOut: logOut

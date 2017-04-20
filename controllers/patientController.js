@@ -39,7 +39,7 @@ function showAll (req, res, next) {
     res.render('patientViews/patientIndex', {
       thead: thead,
       allPatients: data,
-      USER: req.user.username
+      user: req.user.username
     })
   })
 }
@@ -64,7 +64,7 @@ function showOne (req, res, next) {
       thead: thead,
       consultPath: consultPath,
       patient: data,
-      USER: req.user.username
+      user: req.user.username
     })
   })
 }
@@ -72,7 +72,7 @@ function showOne (req, res, next) {
 function createNewPatientPage (req, res) {
   res.render('patientViews/newPatient.ejs',
     {errMsg: req.flash('error'),
-      USER: req.user.username
+      user: req.user.username
     })
 }
 
@@ -87,10 +87,11 @@ function createNew (req, res) {
       console.log('failed to save new patient')
       var errors = cusFn.getErrMsg(err.errors)
       req.flash('error', errors)
-      res.redirect('/clinic/patient/new')
+      res.redirect('/patient/new')
     } else {
+      console.log('saveddddddd', saved)
       console.log('new patient saved succeeded')
-      res.redirect('/clinic/patient')
+      res.redirect('/patient/' + saved.id)
     }
   })
 }
@@ -101,7 +102,7 @@ function showEdit (req, res) {
     console.log(data)
     res.render('patientViews/patientEdit', {
       patient: data,
-      USER: req.user.username
+      user: req.user.username
     })
   })
 }
@@ -132,8 +133,11 @@ function remove (req, res) {
 
   Patientmodel.findById(req.body.id).remove(function (err) {
     if (err) console.error(err)
-    console.log('removed!')
-    res.redirect('/clinic/patient')
+    ConsultModel.find({patient: req.body.id}).remove(function (err) {
+      if (err) console.error(err)
+      console.log('removed!')
+      res.redirect('/patient')
+    })
   })
 }
 

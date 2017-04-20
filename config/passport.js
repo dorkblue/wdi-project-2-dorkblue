@@ -28,28 +28,46 @@ passport.use('local-signup', new LocalStrategy({
   var newUser = new Usermodel({
     email: req.body.email,
     username: givenUser,
-    password: givenPassword
+    password: givenPassword,
+    type: req.body.type
   })
   newUser.save(function (err, data) {
     if (err) {
-      console.log('NEW USER SAVE ERROR', err)
+      console.log('NEW user SAVE ERROR', err)
       return done(err)
     }
     done(null, data)
   })
 }))
 
+// passport.use('local-login', new LocalStrategy({
+//   usernameField: 'username',
+//   passwordField: 'password',
+//   passReqToCallback: true
+// }, function (req, givenUser, givenPassword, done) {
+//   Usermodel.findOne({ username: givenUser }, function (err, foundUser) {
+//     if (err) return done(err)
+//     // If no user is found
+//     if (!foundUser) return done(null, false)
+//     // Check if the password is correct
+//     if (!foundUser.validPassword(givenPassword)) return done(null, false)
+//     console.log(foundUser)
+//     return done(null, foundUser)
+//   })
+// }))
+
 passport.use('local-login', new LocalStrategy({
   usernameField: 'username',
-  passwordField: 'password'
-}, function (givenUser, givenPassword, done) {
+  passwordField: 'password',
+  passReqToCallback: true
+}, function (req, givenUser, givenPassword, done) {
   Usermodel.findOne({ username: givenUser }, function (err, foundUser) {
     if (err) return done(err)
     // If no user is found
     if (!foundUser) return done(null, false)
     // Check if the password is correct
     if (!foundUser.validPassword(givenPassword)) return done(null, false)
-
+    console.log(foundUser)
     return done(null, foundUser)
   })
 }))

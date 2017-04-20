@@ -51,23 +51,36 @@ app.set('view engine', 'ejs')
 var ejsLayouts = require('express-ejs-layouts')
 app.use(ejsLayouts)
 
+// locals data setup
+app.use((req, res, next) => {
+  // app.locals.BASE_URL = req.get('host')
+  app.locals.BASE_USER = req.user
+  console.log('BASE_USER', req.user)
+  next()
+})
+
 // link to unrestricted pages controller
 // var pageRouter = require('./routers/pageRouter')
 // app.use('/', pageRouter)
-// link to auth pages controller
 
+// link to user pages controller
+var userRouter = require('./routers/userRouter')
+app.use('/users', userRouter)
+
+// link to auth pages controller
 var authRouter = require('./routers/authRouter')
 app.use('/', authRouter)
 
+
 // link to restricted patient page
 var patientRouter = require('./routers/patientRouter')
-app.use('/clinic/patient', patientRouter)
+app.use('/patient', patientRouter)
 // link to restricted patient's consultation page
 var consultRouter = require('./routers/consultRouter')
-app.use('/clinic/consultation', consultRouter)
+app.use('/consultation', consultRouter)
 // link to restricted medication page
 var medRouter = require('./routers/medRouter')
-app.use('/clinic/medicine', medRouter)
+app.use('/medicine', medRouter)
 
 // error page
 app.use(function (req, res) {

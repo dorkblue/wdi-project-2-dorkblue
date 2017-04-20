@@ -1,8 +1,17 @@
 <% var deleteLink = med.id + '?_method=DELETE' %>
 <div class="container">
+  <h3>Medication Details</h3>
   <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h3 class="panel-title">Medication Details</h3>
+    <div class="panel-heading"></div>
+    <div class="panel-body">
+      <dl class="dl-horizontal">
+        <% thead.forEach((item, index) => { %>
+            <dt><%- item %></dt>
+            <dd><%- med[item] %></dd>
+       <% }) %>
+      </dl>
+    </div>
+    <div class="panel-footer">
       <div class="">
         <div class="btn-group" role="group">
           <form class="" action="edit" method="GET">
@@ -19,14 +28,6 @@
         </form>
         </div>
       </div>
-    </div>
-    <div class="panel-body">
-      <dl class="dl-horizontal">
-        <% thead.forEach((item, index) => { %>
-            <dt><%- item %></dt>
-            <dd><%- med[item] %></dd>
-       <% }) %>
-      </dl>
     </div>
   </div>
 </div>

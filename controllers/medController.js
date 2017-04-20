@@ -10,7 +10,7 @@ function showAll (req, res, next) {
     res.render('medViews/medIndex', {
       thead: thead,
       med: data,
-      USER: req.user.username
+      user: req.user.username
     })
   })
 }
@@ -18,7 +18,7 @@ function showAll (req, res, next) {
 function createNewMedPage (req, res) {
   res.render('medViews/medNew',
     {errMsg: req.flash('error'),
-      USER: req.user.username
+      user: req.user.username
     })
 }
 
@@ -32,10 +32,10 @@ function createNew (req, res) {
       console.log('failed to save new patient')
       var errors = cusFn.getErrMsg(err.errors)
       req.flash('error', errors)
-      res.redirect('/clinic/medicine/new')
+      res.redirect('/medicine/new')
     } else {
       console.log('new med saved succeeded')
-      res.redirect('/clinic/medicine')
+      res.redirect('/medicine')
     }
   })
 }
@@ -47,7 +47,7 @@ function showOne (req, res, next) {
     res.render('medViews/medShow', {
       med: data,
       thead: thead,
-      USER: req.user.username
+      user: req.user.username
     })
   })
 }
@@ -58,7 +58,7 @@ function showEdit (req, res) {
     console.log(data)
     res.render('medViews/medEdit', {
       med: data,
-      USER: req.user.username
+      user: req.user.username
     })
   })
 }
@@ -90,7 +90,7 @@ function remove (req, res) {
   Medmodel.findById(req.body.id).remove(function (err) {
     if (err) console.error(err)
     console.log('removed!')
-    res.redirect('/clinic/medicine')
+    res.redirect('/medicine')
   })
 }
 

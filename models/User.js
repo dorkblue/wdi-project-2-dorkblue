@@ -3,6 +3,9 @@ var mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 // bcrypt setup
 var bcrypt = require('bcryptjs')
+var PatientModel = require('./Patient').Model
+var ConsultModel = require('./Consultation').Model
+var MedModel = require('../models/Medicine').Model
 // email regex
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
 
@@ -27,6 +30,10 @@ var userObj = {
     required: true,
     minlength: [8, 'Password must be between 8 and 99 characters'],
     maxlength: [99, 'Password must be between 8 and 99 characters']
+  },
+  type: {
+    type: String,
+    required: true
   }
 }
 
@@ -54,6 +61,22 @@ userSchema.pre('save', function (next) {
   next()
 })
 
+userSchema.pre('remove', function (next) {
+  var id = this.id
+
+  PatientModel.find({user: id}).remove(function (err) {
+    if (err) console.error(err)
+    ConsultModel.find({user: id}).remove(function (err) {
+      if (err) console.error(err)
+      MedModel.find({user: id}).remove(function (err) {
+        if (err) console.error(err)
+        console.log('all user data removed!')
+        next()
+      })
+    })
+  })
+})
+
 // to check if when login, user input password is correct to stored password
 userSchema.methods.validPassword = function (password) {
   // Compare is a bcrypt method that will return a boolean
@@ -72,7 +95,3 @@ module.exports = {
   Model: mongoose.model('User', userSchema),
   obj: userObj
 }
-
-// module.exports = {
-//   Model: UserModel
-// }

@@ -50,6 +50,11 @@ var patientSchema = new mongoose.Schema(
       }
     }
   })
+
+patientSchema.pre('remove', function (next) {
+    // Remove all the assignment docs that reference the removed person.
+  this.model('consultationSchema').remove({ patient: this._id }, next)
+})
 //
 // patientSchema.index({'first name': 'text'})
 // patientSchema.index({'last name': 'text'})

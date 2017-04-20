@@ -11,7 +11,7 @@ function display (){
 var alertDisplay = 'display: ' + display ()
 %>
 <div class="container">
-  <form action="<%- '/consultation?id=' + patient.id %>" method="POST">
+  <form action="<%- '/consultation' %>" method="POST">
   <div class="alert alert-danger" role="alert" style="<%- alertDisplay %>">
     <%
     if (errMsg.length) {
@@ -21,12 +21,15 @@ var alertDisplay = 'display: ' + display ()
       }
     %>
   </div>
-  <h1>New Consultation for <a href="<%-'../patient/' + patient.id %>"><%- patient.fullName %></a></h1>
-
+  <h1>New Consultation</h1>
   <div class="panel panel-primary">
     <div class="panel-heading"></div>
     <div class="panel-body">
       <div class="col-md-6">
+          <div class="form-group">
+            <label for="autocomplete">Patient</label>
+            <input type="text" id="autocomplete-consult" name="patient" class="form-control" placeholder="Search patient">
+          </div>
           <div class="form-group">
             <label for="radio">Attending Doctor</label>
             <div class="radio">

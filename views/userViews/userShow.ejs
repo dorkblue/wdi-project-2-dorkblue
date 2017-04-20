@@ -1,0 +1,71 @@
+<% var deleteLink = user.id + '?_method=DELETE' %>
+<div class="container">
+  <h3><%-user.username %></h3>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+    </div>
+    <div class="panel-body">
+      <dl class="dl-horizontal">
+        <% thead.forEach((item, index) => { %>
+          <dt><%- item %></dt>
+          <dd><%- user[item] %></dd>
+        <% }) %>
+      </dl>
+    </div>
+    <div class="panel-footer">
+      <div class="">
+        <div class="btn-group" role="group">
+          <form class="" action="<%- deleteLink %>" method="POST">
+          <button type="submit" class="btn btn-default" aria-label="Left Align" name="id" value="<%- user.id %>">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+          </button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% var editLink = user.id + '?_method=PUT' %>
+
+  <h3>Edit Profile <em><%- user.username %></em></h3>
+  <form action="<%- editLink %>" method="POST">
+  <div class="panel panel-primary">
+  <div class="panel-heading"></div>
+  <div class="panel-body">
+    <div class="col-md-6">
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="<%- user.username %>" value="<%- user.username %>">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" class="form-control" id="email" name="email" placeholder="<%- user.email %>" value="<%- user.email %>">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="text" class="form-control" id="password" name="password">
+        </div>
+
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select name="type" class="form-control">
+            <option>user</option>
+            <option>admin</option>
+          </select>
+        </div>
+
+    </div>
+  </div>
+  <div class="panel-footer">
+    <div class="btn-group" role="group">
+      <button type="submit" class="btn btn-default" aria-label="Left Align">
+        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+      </button>
+    </div>
+  </div>
+</div>
+</form>
+</div>

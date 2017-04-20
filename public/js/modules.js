@@ -46,10 +46,16 @@ function userIsAvailable (user) {
   }
 }
 
+function isAdmin (user) {
+  if (user.type !== 'admin') return false
+  return true
+}
+
 module.exports = {
   filterKeys: filterArray,
   dateNow: dateNow,
   checkObj: checkObj,
   getErrMsg: getErrMsg,
-  userIsAvailable: userIsAvailable
+  userIsAvailable: userIsAvailable,
+  isAdmin: isAdmin
 }

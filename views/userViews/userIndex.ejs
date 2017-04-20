@@ -1,0 +1,74 @@
+<div class="container">
+  <h1>Users List</h1>
+  <table class="table table-striped table-hover list">
+    <thead>
+      <tr>
+        <% thead.forEach((item, index) => {
+          if(index === 0) { %>
+          <% } %>
+          <th><%- item.toUpperCase() %></th>
+        <% }) %>
+      </tr>
+    </thead>
+    <tbody>
+
+      <h3>Add New User</h3>
+      <form action="/users" method="POST">
+      <div class="panel panel-primary">
+      <div class="panel-heading"></div>
+      <div class="panel-body">
+        <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" name="username">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" id="email" name="email">
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="text" class="form-control" id="password" name="password">
+            </div>
+
+            <div class="form-group">
+              <label for="type">Type</label>
+              <select name="type" class="form-control">
+                <option>user</option>
+                <option>admin</option>
+              </select>
+            </div>
+
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="btn-group" role="group">
+          <button type="submit" class="btn btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+          </button>
+        </div>
+      </div>
+    </div>
+    </form>
+
+      <% if (users.length > 0) {
+        users.forEach((user, index) => { %>
+          <tr id=<%- 'users/' + user.id%>>
+              <td><%= user.username %></a></td>
+              <td><%= user.email %></td>
+              <td><%= user.type %></td>
+          </tr>
+        <% })
+      } else { %>
+        <tr>
+          <div class="alert alert-danger" role="alert">
+            User data not found
+          </div>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

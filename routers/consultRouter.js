@@ -3,7 +3,9 @@ var consultController = require('../controllers/consultController')
 
 /* route '/new' */
 // create new consultation page
-router.get('/new', consultController.toCreateNew)
+router
+.get('/new', consultController.toCreateNew)
+.get('/new', consultController.toCreateNewWithoutPatientId)
 // // edit consultation page
 router.get('/edit', consultController.showEdit)
 
