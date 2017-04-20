@@ -5,3 +5,23 @@ div.panel-heading {
 dt {
   text-transform: capitalize;
 }
+
+a.navbar-brand {
+  padding: 0;
+}
+
+div#brand {
+  filter: invert(100%);
+  height: 50px;
+  width: 50px;
+  background-image: url(http://i.imgur.com/H94aR3F.png?1);
+  background-repeat: no-repeat;
+}
+
+span#logo {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  background-image: url(http://i.imgur.com/H94aR3F.png?1);
+  background-repeat: no-repeat;
+}
