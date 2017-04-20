@@ -59,10 +59,6 @@ app.use((req, res, next) => {
   next()
 })
 
-// link to unrestricted pages controller
-// var pageRouter = require('./routers/pageRouter')
-// app.use('/', pageRouter)
-
 // link to user pages controller
 var userRouter = require('./routers/userRouter')
 app.use('/users', userRouter)
