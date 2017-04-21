@@ -45,8 +45,8 @@ Development Stage
 #### Entity Relation Diagram (ERD)
 ![ERD](http://i.imgur.com/qpB993R.png?1 "ERD")
 
-I have pretty much envisioned the entire process flow as above from the start.
-However when I was building my models, I decided to only referenced the User in each of the Patient, Consultation & Medication model, but not the other way round. (Patient, Consultation & Medication are still referenced as per the ERD)
+The ERD has not changed from the beginning when I envisioned it.
+However when I was building my models, I decided to only referenced the User in each of the Patient, Consultation & Medication model, but not the other way round. (Patient, Consultation & Medication are still referenced to each other as per the ERD)
 
 The decision is made in consideration of how I am retrieving the data to index display, how my router & controller will be set up, and the fact that for this project itself, only one server will be used.
 
@@ -132,10 +132,11 @@ var consultationObj = {
 }
 ```
 
-I can no longer do a simple ```forEach``` in my EJS files to display the information to the Users.
+A simple ```forEach``` is no longer adequate to display the information to the Users.
 
 A nested ```forEach``` will be required to display all the information under path: ```prescription```.
 
+> Solution
 
 ```JavaScript
 allConsult.forEach((consult, index) => { %>
@@ -155,9 +156,9 @@ allConsult.forEach((consult, index) => { %>
   </tr>
 <% })
 ```
-> Displaying all consultations in consultation index
+Displaying all consultations in consultation index
 
-Another example of how I've displayed Consultation
+> Another example of how I've displayed Consultation
 
 ```JavaScript
 <% patient.consultation.forEach((eachConsult, index1) => { %>
@@ -181,7 +182,7 @@ Another example of how I've displayed Consultation
   </div>
 <% }) %>
 ```
-> Displaying all consultations of a patient, in patient info page
+Displaying all consultations of a patient, in patient info page
 
 A lot of time is spent on making sure that the application is easily adaptable to the needs of the respective clinics.
 > For example if a certain clinic requires additional entry fields to be added and structured a certain way, not a lot of changes has to be made to the application
@@ -227,10 +228,31 @@ function search (req, res, next) {
     })
 }
 ```
+Using *Regex*, the search result will be populated even though the entire ```first name``` or ```last name``` is not inputed.
+
+Using ```$or``` enables the search between the property ```first name``` or ```last name```.
+
+Using the ```select``` option provided by Autocomplete, I was able to define a callback function, that redirects the User to the respective Patient pages when clicked.
+
+> Solution
+
+```JavaScript
+$('#autocomplete').autocomplete({
+  source: '/patient/search',
+  minLength: 3,
+  select: function (event, ui) {
+    window.location.href = '/patient/' + ui.item.value
+  }
+})
+```
+minLength defines the minimum number of character before a ```GET``` request is sent to ```/search```.
+
 ---
+
 
 Future Improvement
 ------
+
 1. Aside bar with links to certain section of page in ```creating new``` pages
 2. Better security
 3. Image upload function to upload clinic logos
