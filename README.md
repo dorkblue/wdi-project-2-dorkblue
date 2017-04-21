@@ -4,7 +4,7 @@ Gone are the days when pen and paper are mightier than the sword.
 
 Try the app out here
 
-[awan database](https://awan-database.herokuapp.com/patient)
+[awan database](https://awan-database.herokuapp.com/)
 
 ---
 

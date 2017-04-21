@@ -35,40 +35,42 @@
             <label for="comments">Comments</label>
             <textarea class="form-control" rows="3" id="comments" name="comments" placeholder="Enter consultation details and comments here"><%- consultation.comments %></textarea>
           </div>
-          <div class="form-group">
+          <div class="form-group all-med">
             <label for="medicine">Prescription</label>
-            <div class="form-inline">
-              <div class="form-group">
-                <select name="medicine" class="form-control">
-                  <option></option>
-                  <%
-                  med.forEach((item) => {
-                    %>
-                    <option value="<%- item.id %>"><%- item.name %></option>
+            <div class="form-group med-group">
+              <div class="form-inline">
+                <div class="form-group">
+                  <select name="medicine" class="form-control">
+                    <option></option>
                     <%
-                  })
-                  %>
-                </select>
-              </div>
-              <div class="form-group">
-                <input type="text" name="amount" placeholder="amount" class="form-control">
-              </div>
-              <div class="form-group">
-                <select name="unit" class="form-control" value="">
-                  <option>mg</option>
-                  <option>ml</option>
-                  <option>gm</option>
-                </select>
-              </div>
-              <div class="form-group delete-button">
-                <button type="button" class="btn btn-default" aria-label="Left Align">
-                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                </button>
-              </div>
-              <div class="form-group add-button">
-                <button type="button" class="btn btn-default" aria-label="Left Align">
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
+                    med.forEach((item) => {
+                      %>
+                      <option value="<%- item.id %>"><%- item.name %></option>
+                      <%
+                    })
+                    %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input type="text" name="amount" placeholder="amount" class="form-control">
+                </div>
+                <div class="form-group">
+                  <select name="unit" class="form-control" value="">
+                    <option>mg</option>
+                    <option>ml</option>
+                    <option>gm</option>
+                  </select>
+                </div>
+                <div class="form-group delete-button">
+                  <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                  </button>
+                </div>
+                <div class="form-group add-button">
+                  <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
