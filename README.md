@@ -5,6 +5,10 @@ Gone are the days when pen and paper are mightier than the sword.
 Try the app out here
 
 [awan database](https://awan-database.herokuapp.com/)
+username: demo
+password: 12345678
+
+Access the User account. Only admin Users can create new user.
 
 ---
 
