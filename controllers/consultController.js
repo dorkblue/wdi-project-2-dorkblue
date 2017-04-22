@@ -197,6 +197,7 @@ function edit (req, res) {
     for (var i = 0; i < req.body.medicine.length; i++) {
       console.log(i)
       if (req.body.medicine[i] !== '') {
+        prop = {}
         prop.medicine = req.body.medicine[i]
         prop.amount = req.body.amount[i]
         prop.unit = req.body.unit[i]
